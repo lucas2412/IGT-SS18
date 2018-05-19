@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="igt">
+        <class>model.DistrictEntity</class>
+        <class>model.WarehouseEntity</class>
+        <properties>
+            <property name="toplink.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>c.Driver"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:mysql://192.168.254.2
+            <property name="hibernate.connection.url" value="jdbc:mysql://192.168.254.212:3306/IGT"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdb12:3306/IGT"/>
+            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>

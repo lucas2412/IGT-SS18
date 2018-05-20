@@ -7,33 +7,18 @@ import tools.Config;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.transaction.TransactionManager;
+import javax.transaction.*;
 
 public class WarehouseController {
 
 
-    //TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
-    //EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-
-    EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-
-    EntityManager entityManager = factory.createEntityManager();
-
-
-
-    public void createWarehouse() {
+    public void createWarehouse(Warehouse w) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+        EntityManager entityManager = factory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        Warehouse warehouse1 = new Warehouse();
-        warehouse1.setW_ID(1);
-        warehouse1.setW_NAME("Warehouse1");
-        warehouse1.setW_PLZ("68723");
-        warehouse1.setW_STADT("Schwetzingen");
-        warehouse1.setW_STEUERSATZ(0.16);
-        warehouse1.setW_STRAßE("Ostpreußenring 45");
-        warehouse1.setW_YTD("aad");
 
-        entityManager.persist(warehouse1);
+        entityManager.persist(w);
 
         entityManager.getTransaction().commit();
 
@@ -42,7 +27,56 @@ public class WarehouseController {
 
     }
 
+    public void updateWarehouse(Warehouse w) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+        EntityManager entityManager = factory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        Warehouse warehouseOld = entityManager.find(Warehouse.class, w.getW_ID());
+        warehouseOld = w;
+        entityManager.merge(warehouseOld);
+
+        entityManager.getTransaction().commit();
 
 
+        entityManager.close();
+        factory.close();
+
+    }
+
+    public void deleteWarehouse(int W_ID) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+        EntityManager entityManager = factory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        Warehouse warehouse = entityManager.find(Warehouse.class, W_ID);
+
+        entityManager.remove(warehouse);
+        entityManager.getTransaction().commit();
+
+
+
+        entityManager.close();
+        factory.close();
+
+    }
+
+    public Warehouse getWarehouse(int W_ID) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+        EntityManager entityManager = factory.createEntityManager();
+
+        Warehouse warehouse = null;
+
+        entityManager.getTransaction().begin();
+
+        warehouse = entityManager.find(Warehouse.class, W_ID);
+
+        entityManager.close();
+        factory.close();
+
+        return warehouse;
+
+
+    }
 
 }

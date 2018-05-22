@@ -15,7 +15,7 @@
             <property name="hibernate.connection.password" value="igt" />
 
             <property name="hibernate.flushMode" value="FLUSH_AUTO" />
-          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+       <!--   <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
 
             <property name="hibernate.transaction.jta.platform"
                       value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
@@ -24,10 +24,19 @@
       </properties>
   </persistence-unit>
 
-
+    <persistence-unit name="org.hibernate.ogm.tutorial.jpa" transaction-type="JTA">
+        <!-- Use Hibernate OGM provider: configuration will be transparent -->
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+        <properties>
+            <property name="hibernate.transaction.jta.platform"
+                      value="JBossTS" />
+            <property name="hibernate.ogm.datastore.provider"
+                      value="infinispan_embedded" />
+        </properties>
+    </persistence-unit>
     <persistence-unit name="MYSQL">
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306///IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
             <property name="javax.persistence.jdbc.user" value="igt" />
             <property name="javax.persistence.jdbc.password" value="igt" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -49,7 +58,25 @@
 
 
 
+    <persistence-unit name="OGM_MONGODB" transaction-type="JTA">
+        <!-- Use the Hibernate OGM provider: configuration will be transparent -->
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
 
+        <properties>
+            <property name="hibernate.ogm.datastore.provider"
+                      value="mongodb"/>
+            <property name="hibernate.ogm.datastore.database" value="mongo"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.ogm.datastore.create_database"
+                      value="true"/>
+            <property name="hibernate.ogm.datastore.host" value="192.168.254.212"/>
+            <property name="hibernate.ogm.datastore.port" value="27017"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <!--<property name="hibernate.ogm.datastore.username" value="root"/>
+            <property name="hibernate.ogm.datastore.password" value="toor"/>
+    -->
+        </properties>
+    </persistence-unit>
 
 
 

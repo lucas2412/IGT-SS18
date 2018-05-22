@@ -1,18 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="MYSQL">
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
-            <property name="javax.persistence.jdbc.user" value="igt" />
-            <property name="javax.persistence.jdbc.password" value="igt" />
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
-        </properties>
-    </persistence-unit>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
 
     <persistence-unit name="OGM_MYSQL" transaction-type="JTA">
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
@@ -25,20 +15,45 @@
             <property name="hibernate.connection.password" value="igt" />
 
             <property name="hibernate.flushMode" value="FLUSH_AUTO" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-            <property name="hibernate.show_sql" value="true" />
-            <!-- defines which JTA Transaction we plan to use -->
+          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+
             <property name="hibernate.transaction.jta.platform"
                       value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
+          <property name="hibernate.show_sql" value="true" />
+
+      </properties>
+  </persistence-unit>
+
+
+    <persistence-unit name="MYSQL">
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.user" value="igt" />
+            <property name="javax.persistence.jdbc.password" value="igt" />
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
         </properties>
     </persistence-unit>
+
+
 
     <persistence-unit name="ogm-jpa-tutorial" transaction-type="JTA">
         <!-- Use Hibernate OGM provider: configuration will be transparent -->
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
         <properties>
+
             <property name="hibernate.ogm.datastore.provider" value="infinispan_embedded"/>
         </properties>
     </persistence-unit>
+
+
+
+
+
+
+
+
+
 
 </persistence>

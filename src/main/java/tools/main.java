@@ -31,6 +31,7 @@ public class main {
 
 
 
+        System.out.print("asdadadasdadsadsd");
 
 
         //accessing JBoss's Transaction can be done differently but this one works nicely
@@ -38,12 +39,12 @@ public class main {
         //build the EntityManagerFactory as you would build in in Hibernate ORM
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("OGM_MYSQL");
 
-        EntityManager em = emf.createEntityManager();
+       // EntityManager em = emf.createEntityManager();
 
         tm.begin();
-
+        EntityManager em = emf.createEntityManager();
         Warehouse warehouse1 = new Warehouse();
-        warehouse1.setW_ID(6);
+        warehouse1.setW_ID(1242);
         warehouse1.setW_NAME("Warehouse1");
         warehouse1.setW_PLZ("68723");
         warehouse1.setW_STADT("Schwetzingen");
@@ -52,9 +53,13 @@ public class main {
         warehouse1.setW_YTD("aad");
 
         em.persist(warehouse1);
+
+        em.flush();
+        em.close();
         tm.commit();
+        emf.close();
 
-
+        System.out.print("asdadadasdadsadsd");
     }
 }
 

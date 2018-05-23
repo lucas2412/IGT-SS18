@@ -22,13 +22,13 @@ public class main {
         //accessing JBoss's Transaction can be done differently but this one works nicely
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
         //build the EntityManagerFactory as you would build in in Hibernate ORM
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("OGM_MONGODB");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
 
 
         tm.begin();
         EntityManager em = emf.createEntityManager();
         Warehouse warehouse1 = new Warehouse();
-        warehouse1.setW_ID(1242);
+        warehouse1.setW_ID(2);
         warehouse1.setW_NAME("Warehouse1");
         warehouse1.setW_PLZ("68723");
         warehouse1.setW_STADT("Schwetzingen");

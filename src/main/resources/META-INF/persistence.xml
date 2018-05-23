@@ -60,7 +60,6 @@
     <persistence-unit name="OGM_MONGODB" transaction-type="JTA">
         <!-- Use the Hibernate OGM provider: configuration will be transparent -->
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-
         <properties>
             <property name="hibernate.ogm.datastore.provider"
                       value="mongodb"/>
@@ -77,7 +76,44 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="OGM_CASSANDRA" transaction-type="JTA">
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+        <properties>
+            <property name="hibernate.ogm.datastore.provider" value="cassandra_experimental"/>
+            <property name="hibernate.ogm.datastore.host" value="192.168.254.212:9042"/>
+            <property name="hibernate.ogm.datastore.database" value="ogm_hibernate"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
 
+
+    <persistence-unit name="OGM_REDIS" transaction-type="JTA">
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.ogm.datastore.provider" value="redis_experimental"/>
+            <property name="hibernate.ogm.datastore.host" value="192.168.254.212:6379"/>
+            <!-- <property name="hibernate.ogm.redis.ttl" value="-1" /> -->
+            <property name="hibernate.ogm.redis.ssl" value="false"/>
+            <property name="hibernate.ogm.redis.cluster" value="false"/>
+            <!-- <property name="hibernate.ogm.datastore.grid_dialect" value="org.hibernate.ogm.datastore.redis.RedisHashDialect" /> -->
+            <property name="hibernate.ogm.datastore.grid_dialect"
+                      value="org.hibernate.ogm.datastore.redis.RedisJsonDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="OGM_NEO4J" transaction-type="JTA">
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.ogm.datastore.provider" value="neo4j_bolt"/>
+            <property name="hibernate.ogm.datastore.host" value="192.168.254.212:7687"/>
+            <property name="hibernate.ogm.datastore.username" value="neo4j"/>
+            <property name="hibernate.ogm.datastore.password" value="igt"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
 
 
 </persistence>

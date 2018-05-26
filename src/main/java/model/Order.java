@@ -1,34 +1,42 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ORDER")
 public class Order implements Serializable {
     @Id
     private Integer O_ID;
-    @Id
-    private Integer O_D_ID;
-    @Id
-    private Integer O_W_ID;
     @Column
     private Integer O_C_ID;
     @Column
-    private Date O_EINGANSDATUM;
+    private Integer O_H_ID;
     @Column
-    private Integer O_AUSLIEFERER_ID;
+    private Date O_EINGANGSDATUM;
     @Column
     private Integer O_OL_CNT;
-    @Column
-    private Integer O_ALL_LOCAL;
 
     public Order() {
     }
+
+    @ManyToOne
+    @JoinColumn(name = "O_C_ID", insertable=false, updatable = false)
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "O_H_ID", insertable=false, updatable = false)
+    private History OrderHistory;
+
+
+    @OneToMany(mappedBy = "OL_Order")
+    private List<OrderLine> orderLines = new ArrayList<OrderLine>();
+
+    @OneToOne(mappedBy = "NewOrder")
+    private NewOrder NewOrder;
 
     public Integer getO_ID() {
         return O_ID;
@@ -36,22 +44,6 @@ public class Order implements Serializable {
 
     public void setO_ID(Integer o_ID) {
         O_ID = o_ID;
-    }
-
-    public Integer getO_D_ID() {
-        return O_D_ID;
-    }
-
-    public void setO_D_ID(Integer o_D_ID) {
-        O_D_ID = o_D_ID;
-    }
-
-    public Integer getO_W_ID() {
-        return O_W_ID;
-    }
-
-    public void setO_W_ID(Integer o_W_ID) {
-        O_W_ID = o_W_ID;
     }
 
     public Integer getO_C_ID() {
@@ -62,20 +54,20 @@ public class Order implements Serializable {
         O_C_ID = o_C_ID;
     }
 
-    public Date getO_EINGANSDATUM() {
-        return O_EINGANSDATUM;
+    public Integer getO_H_ID() {
+        return O_H_ID;
     }
 
-    public void setO_EINGANSDATUM(Date o_EINGANSDATUM) {
-        O_EINGANSDATUM = o_EINGANSDATUM;
+    public void setO_H_ID(Integer o_H_ID) {
+        O_H_ID = o_H_ID;
     }
 
-    public Integer getO_AUSLIEFERER_ID() {
-        return O_AUSLIEFERER_ID;
+    public Date getO_EINGANGSDATUM() {
+        return O_EINGANGSDATUM;
     }
 
-    public void setO_AUSLIEFERER_ID(Integer o_AUSLIEFERER_ID) {
-        O_AUSLIEFERER_ID = o_AUSLIEFERER_ID;
+    public void setO_EINGANGSDATUM(Date o_EINGANSDATUM) {
+        O_EINGANGSDATUM = o_EINGANSDATUM;
     }
 
     public Integer getO_OL_CNT() {
@@ -86,11 +78,35 @@ public class Order implements Serializable {
         O_OL_CNT = o_OL_CNT;
     }
 
-    public Integer getO_ALL_LOCAL() {
-        return O_ALL_LOCAL;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setO_ALL_LOCAL(Integer o_ALL_LOCAL) {
-        O_ALL_LOCAL = o_ALL_LOCAL;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public History getOrderHistory() {
+        return OrderHistory;
+    }
+
+    public void setOrderHistory(History orderHistory) {
+        OrderHistory = orderHistory;
+    }
+
+    public List<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
+
+    public model.NewOrder getNewOrder() {
+        return NewOrder;
+    }
+
+    public void setNewOrder(model.NewOrder newOrder) {
+        NewOrder = newOrder;
     }
 }

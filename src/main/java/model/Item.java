@@ -1,11 +1,10 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ITEM")
@@ -21,6 +20,11 @@ public class Item implements Serializable {
 
     public Item() {
     }
+
+
+    @OneToMany(mappedBy = "stockItem")
+    private List<Stock> stockList = new ArrayList<Stock>();
+
 
     public Integer getI_ID() {
         return I_ID;
@@ -53,4 +57,14 @@ public class Item implements Serializable {
     public void setI_PRICE(Double i_PRICE) {
         I_PRICE = i_PRICE;
     }
+
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
+    }
 }
+
+

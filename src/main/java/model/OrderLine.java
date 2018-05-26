@@ -1,9 +1,6 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,17 +8,13 @@ import java.util.Date;
 @Table(name = "ORDER LINE")
 public class OrderLine implements Serializable {
     @Id
-    private Integer OL_O_ID;
-    @Id
-    private Integer OL_D_ID;
-    @Id
-    private Integer OL_W_ID;
-    @Id
     private Integer OL_NUMBER;
     @Column
-    private Integer OL_I_ID;
+    private Integer OL_O_ID;
     @Column
-    private Integer OL_SUPPLY_W_ID;
+    private Integer OL_S_ID;
+    @Column
+    private Integer OL_S_I_ID;
     @Column
     private Date OL_DELIVERY_D;
     @Column
@@ -32,29 +25,17 @@ public class OrderLine implements Serializable {
     public OrderLine() {
     }
 
-    public Integer getOL_O_ID() {
-        return OL_O_ID;
-    }
+    @ManyToOne
+    @JoinColumn(name = "OL_O_ID", insertable=false, updatable = false)
+    private Order OL_Order;
 
-    public void setOL_O_ID(Integer OL_O_ID) {
-        this.OL_O_ID = OL_O_ID;
-    }
 
-    public Integer getOL_D_ID() {
-        return OL_D_ID;
-    }
-
-    public void setOL_D_ID(Integer OL_D_ID) {
-        this.OL_D_ID = OL_D_ID;
-    }
-
-    public Integer getOL_W_ID() {
-        return OL_W_ID;
-    }
-
-    public void setOL_W_ID(Integer OL_W_ID) {
-        this.OL_W_ID = OL_W_ID;
-    }
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "OL_S_ID", insertable=false, updatable = false),
+            @JoinColumn(name = "OL_S_I_ID", insertable=false, updatable = false)
+    })
+    private Stock OL_Stock;
 
     public Integer getOL_NUMBER() {
         return OL_NUMBER;
@@ -64,20 +45,28 @@ public class OrderLine implements Serializable {
         this.OL_NUMBER = OL_NUMBER;
     }
 
-    public Integer getOL_I_ID() {
-        return OL_I_ID;
+    public Integer getOL_O_ID() {
+        return OL_O_ID;
     }
 
-    public void setOL_I_ID(Integer OL_I_ID) {
-        this.OL_I_ID = OL_I_ID;
+    public void setOL_O_ID(Integer OL_O_ID) {
+        this.OL_O_ID = OL_O_ID;
     }
 
-    public Integer getOL_SUPPLY_W_ID() {
-        return OL_SUPPLY_W_ID;
+    public Integer getOL_S_ID() {
+        return OL_S_ID;
     }
 
-    public void setOL_SUPPLY_W_ID(Integer OL_SUPPLY_W_ID) {
-        this.OL_SUPPLY_W_ID = OL_SUPPLY_W_ID;
+    public void setOL_S_ID(Integer OL_S_ID) {
+        this.OL_S_ID = OL_S_ID;
+    }
+
+    public Integer getOL_S_I_ID() {
+        return OL_S_I_ID;
+    }
+
+    public void setOL_S_I_ID(Integer OL_S_I_ID) {
+        this.OL_S_I_ID = OL_S_I_ID;
     }
 
     public Date getOL_DELIVERY_D() {
@@ -102,5 +91,21 @@ public class OrderLine implements Serializable {
 
     public void setOL_AMOUNT(Integer OL_AMOUNT) {
         this.OL_AMOUNT = OL_AMOUNT;
+    }
+
+    public Order getOL_Order() {
+        return OL_Order;
+    }
+
+    public void setOL_Order(Order OL_Order) {
+        this.OL_Order = OL_Order;
+    }
+
+    public Stock getOL_Stock() {
+        return OL_Stock;
+    }
+
+    public void setOL_Stock(Stock OL_Stock) {
+        this.OL_Stock = OL_Stock;
     }
 }

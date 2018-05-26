@@ -1,18 +1,19 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "STOCK")
 public class Stock implements Serializable {
     @Id
-    private Integer S_I_ID;
+    private Integer S_ID;
     @Id
+    private Integer S_I_ID;
+    @Column
     private Integer S_W_ID;
     @Column
     private Integer S_QUANTITY;
@@ -37,15 +38,33 @@ public class Stock implements Serializable {
     @Column
     private String S_DIST_10;
     @Column
-    private Integer S_YTD;
-    @Column
     private Integer S_ORDER_CNT;
-    @Column
-    private Integer S_REMOTE_CNT;
 
     public Stock() {
     }
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "S_W_ID", insertable=false, updatable = false)
+    private Warehouse StockWarehouse;
+
+    @ManyToOne
+    @JoinColumn(name = "S_I_ID", insertable=false, updatable = false)
+    private Item stockItem;
+
+
+    @OneToMany(mappedBy = "OL_Stock")
+    private List<OrderLine> OL_List = new ArrayList<OrderLine>();
+
+
+    public Integer getS_ID() {
+        return S_ID;
+    }
+
+    public void setS_ID(Integer s_ID) {
+        S_ID = s_ID;
+    }
 
     public Integer getS_I_ID() {
         return S_I_ID;
@@ -151,14 +170,6 @@ public class Stock implements Serializable {
         S_DIST_10 = s_DIST_10;
     }
 
-    public Integer getS_YTD() {
-        return S_YTD;
-    }
-
-    public void setS_YTD(Integer s_YTD) {
-        S_YTD = s_YTD;
-    }
-
     public Integer getS_ORDER_CNT() {
         return S_ORDER_CNT;
     }
@@ -167,12 +178,28 @@ public class Stock implements Serializable {
         S_ORDER_CNT = s_ORDER_CNT;
     }
 
-    public Integer getS_REMOTE_CNT() {
-        return S_REMOTE_CNT;
+    public Warehouse getStockWarehouse() {
+        return StockWarehouse;
     }
 
-    public void setS_REMOTE_CNT(Integer s_REMOTE_CNT) {
-        S_REMOTE_CNT = s_REMOTE_CNT;
+    public void setStockWarehouse(Warehouse stockWarehouse) {
+        StockWarehouse = stockWarehouse;
+    }
+
+    public Item getStockItem() {
+        return stockItem;
+    }
+
+    public void setStockItem(Item stockItem) {
+        this.stockItem = stockItem;
+    }
+
+    public List<OrderLine> getOL_List() {
+        return OL_List;
+    }
+
+    public void setOL_List(List<OrderLine> OL_List) {
+        this.OL_List = OL_List;
     }
 }
 

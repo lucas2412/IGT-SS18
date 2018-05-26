@@ -34,14 +34,16 @@
                       value="infinispan_embedded" />
         </properties>
     </persistence-unit>
+
     <persistence-unit name="MYSQL">
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306///IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
             <property name="javax.persistence.jdbc.user" value="igt" />
             <property name="javax.persistence.jdbc.password" value="igt" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.dialect" value ="org.hibernate.dialect.MySQLDialect" />
         </properties>
     </persistence-unit>
 

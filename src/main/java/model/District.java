@@ -1,17 +1,16 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "DISTRICT")
 public class District implements Serializable {
     @Id
     private Integer D_ID;
-    @Id
+    @Column
     private Integer D_W_ID;
     @Column
     private String D_NAME;
@@ -20,15 +19,21 @@ public class District implements Serializable {
     @Column
     private String D_STADT;
     @Column
-    private Integer D_PLZ;
-    @Column
-    private Double D_STEUERSATZ;
-    @Column
-    private String D_YTD;
+    private String D_PLZ;
 
 
     public District() {
     }
+
+
+    @ManyToOne
+    @JoinColumn(name = "D_W_ID", insertable=false, updatable = false)
+    private Warehouse DistrictWarehouse;
+
+
+    @OneToMany(mappedBy = "CustomerDistrict")
+    private List<Customer> customerList = new ArrayList<Customer>();
+
 
     public Integer getD_ID() {
         return D_ID;
@@ -70,27 +75,27 @@ public class District implements Serializable {
         D_STADT = d_STADT;
     }
 
-    public Integer getD_PLZ() {
+    public String getD_PLZ() {
         return D_PLZ;
     }
 
-    public void setD_PLZ(Integer d_PLZ) {
+    public void setD_PLZ(String d_PLZ) {
         D_PLZ = d_PLZ;
     }
 
-    public Double getD_STEUERSATZ() {
-        return D_STEUERSATZ;
+    public Warehouse getDistrictWarehouse() {
+        return DistrictWarehouse;
     }
 
-    public void setD_STEUERSATZ(Double d_STEUERSATZ) {
-        D_STEUERSATZ = d_STEUERSATZ;
+    public void setDistrictWarehouse(Warehouse districtWarehouse) {
+        DistrictWarehouse = districtWarehouse;
     }
 
-    public String getD_YTD() {
-        return D_YTD;
+    public List<Customer> getCustomerList() {
+        return customerList;
     }
 
-    public void setD_YTD(String d_YTD) {
-        D_YTD = d_YTD;
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
     }
 }

@@ -1,11 +1,10 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -13,10 +12,10 @@ public class Customer implements Serializable {
 
     @Id
     private Integer C_ID;
-    @Id
+    @Column
     private Integer C_D_ID;
-    @Id
-    private Integer C_W_ID;
+    @Column
+    private Integer C_H_ID;
     @Column
     private String C_STRAßE;
     @Column
@@ -28,10 +27,6 @@ public class Customer implements Serializable {
     @Column
     private Date C_KUNDESEIT;
     @Column
-    private String C_KREDITSCORE;
-    @Column
-    private Double C_KREDITLIMIT;
-    @Column
     private Double C_RABATT;
     @Column
     private Double C_KONTOSTAND;
@@ -39,6 +34,18 @@ public class Customer implements Serializable {
 
     public Customer() {
     }
+
+
+    @ManyToOne
+    @JoinColumn(name = "C_D_ID", insertable=false, updatable = false)
+    private District CustomerDistrict;
+
+    @OneToOne
+    @JoinColumn(name = "C_H_ID", insertable=false, updatable = false)
+    private History CustomerHistory;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<Order>();
 
     public Integer getC_ID() {
         return C_ID;
@@ -56,12 +63,12 @@ public class Customer implements Serializable {
         C_D_ID = c_D_ID;
     }
 
-    public Integer getC_W_ID() {
-        return C_W_ID;
+    public Integer getC_H_ID() {
+        return C_H_ID;
     }
 
-    public void setC_W_ID(Integer c_W_ID) {
-        C_W_ID = c_W_ID;
+    public void setC_H_ID(Integer c_H_ID) {
+        C_H_ID = c_H_ID;
     }
 
     public String getC_STRAßE() {
@@ -104,22 +111,6 @@ public class Customer implements Serializable {
         C_KUNDESEIT = c_KUNDESEIT;
     }
 
-    public String getC_KREDITSCORE() {
-        return C_KREDITSCORE;
-    }
-
-    public void setC_KREDITSCORE(String c_KREDITSCORE) {
-        C_KREDITSCORE = c_KREDITSCORE;
-    }
-
-    public Double getC_KREDITLIMIT() {
-        return C_KREDITLIMIT;
-    }
-
-    public void setC_KREDITLIMIT(Double c_KREDITLIMIT) {
-        C_KREDITLIMIT = c_KREDITLIMIT;
-    }
-
     public Double getC_RABATT() {
         return C_RABATT;
     }
@@ -134,5 +125,29 @@ public class Customer implements Serializable {
 
     public void setC_KONTOSTAND(Double c_KONTOSTAND) {
         C_KONTOSTAND = c_KONTOSTAND;
+    }
+
+    public District getCustomerDistrict() {
+        return CustomerDistrict;
+    }
+
+    public void setCustomerDistrict(District customerDistrict) {
+        CustomerDistrict = customerDistrict;
+    }
+
+    public History getCustomerHistory() {
+        return CustomerHistory;
+    }
+
+    public void setCustomerHistory(History customerHistory) {
+        CustomerHistory = customerHistory;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

@@ -4,7 +4,9 @@ import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "WAREHOUSE")
@@ -15,31 +17,25 @@ public class Warehouse implements Serializable {
     private String W_NAME;
     @Column
     private String W_STRAßE;
+
     @Column
     private String W_STADT;
     @Column
     private String W_PLZ;
-    @Column
-    private Double W_STEUERSATZ;
-    @Column
-    private String W_YTD;
-
-    public String getW_YTD() {
-        return W_YTD;
-    }
-
-    public void setW_YTD(String w_YTD) {
-        W_YTD = w_YTD;
-    }
 
     public Warehouse() {
     }
 
+    @OneToMany(mappedBy = "DistrictWarehouse")
+    private List<District> districtList = new ArrayList<District>();
+
+    @OneToMany(mappedBy = "StockWarehouse")
+    private List<Stock> stockList = new ArrayList<Stock>();
+
+
     public Integer getW_ID() {
         return W_ID;
     }
-
-
 
     public void setW_ID(Integer w_ID) {
         W_ID = w_ID;
@@ -77,11 +73,19 @@ public class Warehouse implements Serializable {
         W_PLZ = w_PLZ;
     }
 
-    public Double getW_STEUERSATZ() {
-        return W_STEUERSATZ;
+    public List<District> getDistrictList() {
+        return districtList;
     }
 
-    public void setW_STEUERSATZ(Double w_STEUERSATZ) {
-        W_STEUERSATZ = w_STEUERSATZ;
+    public void setDistrictList(List<District> districtList) {
+        this.districtList = districtList;
+    }
+
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
     }
 }

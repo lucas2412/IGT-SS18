@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 @Table(name = "STOCK")
 public class Stock implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer S_ID;
     @Id
     private Integer S_I_ID;
@@ -53,7 +56,7 @@ public class Stock implements Serializable {
     @JoinColumn(name = "S_I_ID", insertable=false, updatable = false)
     private Item stockItem;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "OL_Stock")
     private List<OrderLine> OL_List = new ArrayList<OrderLine>();
 

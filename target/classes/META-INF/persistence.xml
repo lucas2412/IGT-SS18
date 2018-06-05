@@ -24,43 +24,25 @@
       </properties>
   </persistence-unit>
 
-    <persistence-unit name="org.hibernate.ogm.tutorial.jpa" transaction-type="JTA">
-        <!-- Use Hibernate OGM provider: configuration will be transparent -->
-        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-        <properties>
-            <property name="hibernate.transaction.jta.platform"
-                      value="JBossTS" />
-            <property name="hibernate.ogm.datastore.provider"
-                      value="infinispan_embedded" />
-        </properties>
-    </persistence-unit>
 
     <persistence-unit name="MYSQL">
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.254.212:3306/IGT2?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
             <property name="javax.persistence.jdbc.user" value="igt" />
             <property name="javax.persistence.jdbc.password" value="igt" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.dialect" value ="org.hibernate.dialect.MySQLDialect" />
-        </properties>
-    </persistence-unit>
+        <!--    <property name="hibernate.hbm2ddl.auto" value="create"/> -->
 
-
-    <persistence-unit name="ogm-jpa-tutorial" transaction-type="JTA">
-        <!-- Use Hibernate OGM provider: configuration will be transparent -->
-        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-        <properties>
-
-            <property name="hibernate.ogm.datastore.provider" value="infinispan_embedded"/>
-        </properties>
-    </persistence-unit>
+      </properties>
+</persistence-unit>
 
 
 
-    <persistence-unit name="OGM_MONGODB" transaction-type="JTA">
-        <!-- Use the Hibernate OGM provider: configuration will be transparent -->
+<persistence-unit name="OGM_MONGODB" transaction-type="JTA">
+   <!-- Use the Hibernate OGM provider: configuration will be transparent -->
         <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
         <properties>
             <property name="hibernate.ogm.datastore.provider"

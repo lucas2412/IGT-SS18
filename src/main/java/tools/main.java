@@ -1,7 +1,9 @@
 package tools;
 
+import Controller.CustomerController;
 import Controller.WarehouseController;
 import model.Order;
+import model.Order2;
 import model.OrderLine;
 import model.Warehouse;
 
@@ -30,27 +32,26 @@ public class main {
         //build the EntityManagerFactory as you would build in in Hibernate ORM
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
 
+        Order2 order2 = new Order2();
+        order2.setO_ID(1);
 
         tm.begin();
         EntityManager em = emf.createEntityManager();
-        Warehouse warehouse1 = new Warehouse();
-        warehouse1.setW_ID(2);
-        warehouse1.setW_NAME("Warehouse1");
-        warehouse1.setW_PLZ("68723");
-        warehouse1.setW_STADT("Schwetzingen");
-        warehouse1.setW_STRAßE("Ostpreußenring 45");
 
-        em.persist(warehouse1);
+        em.persist(order2);
 
         em.flush();
         em.close();
         tm.commit();
         emf.close();
+
+
 */
-
-
         testData data = new testData();
         data.createTestData();
+
+     //   CustomerController controller = new CustomerController();
+       // controller.create("1","3","68723", "20", 1);
 
         System.out.print("Ende");
     }

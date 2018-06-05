@@ -5,9 +5,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "ORDER LINE")
+@Table(name = "ORDERLINE")
 public class OrderLine implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer OL_NUMBER;
     @Column
     private Integer OL_O_ID;
@@ -27,7 +28,7 @@ public class OrderLine implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "OL_O_ID", insertable=false, updatable = false)
-    private Order OL_Order;
+    private Order2 OL_Order;
 
 
     @ManyToOne
@@ -93,11 +94,11 @@ public class OrderLine implements Serializable {
         this.OL_AMOUNT = OL_AMOUNT;
     }
 
-    public Order getOL_Order() {
+    public Order2 getOL_Order() {
         return OL_Order;
     }
 
-    public void setOL_Order(Order OL_Order) {
+    public void setOL_Order(Order2 OL_Order) {
         this.OL_Order = OL_Order;
     }
 

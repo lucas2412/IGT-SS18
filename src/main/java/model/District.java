@@ -1,5 +1,9 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +13,7 @@ import java.util.List;
 @Table(name = "DISTRICT")
 public class District implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer D_ID;
     @Column
     private Integer D_W_ID;
@@ -25,13 +30,15 @@ public class District implements Serializable {
     public District() {
     }
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "D_W_ID", insertable=false, updatable = false)
+    @JsonBackReference
     private Warehouse DistrictWarehouse;
 
 
     @OneToMany(mappedBy = "CustomerDistrict")
+    @JsonIgnore
     private List<Customer> customerList = new ArrayList<Customer>();
 
 

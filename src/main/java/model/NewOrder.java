@@ -6,9 +6,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "NEW ORDER")
+@Table(name = "NEWORDER")
 public class NewOrder implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer NO_ID;
     @Column
     private Integer NO_O_ID;
@@ -18,9 +19,10 @@ public class NewOrder implements Serializable {
     }
 
 
+   // @OneToOne(cascade = {CascadeType.ALL})
     @OneToOne
     @JoinColumn(name = "NO_O_ID", insertable=false, updatable = false)
-    private Order NewOrder;
+    private Order2 NewOrder;
 
 
     public Integer getNO_ID() {
@@ -39,11 +41,11 @@ public class NewOrder implements Serializable {
         this.NO_O_ID = NO_O_ID;
     }
 
-    public Order getNewOrder() {
+    public Order2 getNewOrder() {
         return NewOrder;
     }
 
-    public void setNewOrder(Order newOrder) {
+    public void setNewOrder(Order2 newOrder) {
         NewOrder = newOrder;
     }
 }

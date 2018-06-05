@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.util.List;
 @Table(name = "WAREHOUSE")
 public class Warehouse implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer W_ID;
     @Column
     private String W_NAME;
@@ -26,10 +29,14 @@ public class Warehouse implements Serializable {
     public Warehouse() {
     }
 
+
     @OneToMany(mappedBy = "DistrictWarehouse")
+    @JsonIgnore
     private List<District> districtList = new ArrayList<District>();
 
+
     @OneToMany(mappedBy = "StockWarehouse")
+    @JsonIgnore
     private List<Stock> stockList = new ArrayList<Stock>();
 
 

@@ -1,5 +1,10 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,11 +16,12 @@ import java.util.List;
 public class Customer implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer C_ID;
     @Column
     private Integer C_D_ID;
-    @Column
-    private Integer C_H_ID;
+   // @Column
+   // private Integer C_H_ID;
     @Column
     private String C_STRAßE;
     @Column
@@ -40,12 +46,14 @@ public class Customer implements Serializable {
     @JoinColumn(name = "C_D_ID", insertable=false, updatable = false)
     private District CustomerDistrict;
 
-    @OneToOne
-    @JoinColumn(name = "C_H_ID", insertable=false, updatable = false)
-    private History CustomerHistory;
+  //  @OneToOne
+  //  @JoinColumn(name = "C_H_ID", insertable=false, updatable = false)
+ //   private History CustomerHistory;
+
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders = new ArrayList<Order>();
+    @JsonIgnore
+    private List<Order2> orders = new ArrayList<Order2>();
 
     public Integer getC_ID() {
         return C_ID;
@@ -62,7 +70,7 @@ public class Customer implements Serializable {
     public void setC_D_ID(Integer c_D_ID) {
         C_D_ID = c_D_ID;
     }
-
+/*
     public Integer getC_H_ID() {
         return C_H_ID;
     }
@@ -70,7 +78,7 @@ public class Customer implements Serializable {
     public void setC_H_ID(Integer c_H_ID) {
         C_H_ID = c_H_ID;
     }
-
+*/
     public String getC_STRAßE() {
         return C_STRAßE;
     }
@@ -135,19 +143,19 @@ public class Customer implements Serializable {
         CustomerDistrict = customerDistrict;
     }
 
-    public History getCustomerHistory() {
+  /*  public History getCustomerHistory() {
         return CustomerHistory;
     }
 
     public void setCustomerHistory(History customerHistory) {
         CustomerHistory = customerHistory;
     }
-
-    public List<Order> getOrders() {
+*/
+    public List<Order2> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Order2> orders) {
         this.orders = orders;
     }
 }

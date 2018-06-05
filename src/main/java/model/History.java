@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "HISTORY")
+//@Entity
+//@Table(name = "HISTORY")
 public class History implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer H_ID;
     @Column
     private Date H_DATE;

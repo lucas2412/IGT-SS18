@@ -19,8 +19,7 @@ public class Warehouse implements Serializable {
     @Column
     private String W_NAME;
     @Column
-    private String W_STRAßE;
-
+    private String W_STRASSE;
     @Column
     private String W_STADT;
     @Column
@@ -56,12 +55,12 @@ public class Warehouse implements Serializable {
         W_NAME = w_NAME;
     }
 
-    public String getW_STRAßE() {
-        return W_STRAßE;
+    public String getW_STRASSE() {
+        return W_STRASSE;
     }
 
-    public void setW_STRAßE(String w_STRAßE) {
-        W_STRAßE = w_STRAßE;
+    public void setW_STRASSE(String w_STRASSE) {
+        W_STRASSE = w_STRASSE;
     }
 
     public String getW_STADT() {

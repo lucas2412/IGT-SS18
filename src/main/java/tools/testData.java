@@ -26,6 +26,7 @@ public class testData {
         List<Customer> customerList = new ArrayList();
         List<District> districtList = new ArrayList();
         List<Stock> stockList = new ArrayList();
+        List<OrderLine> orderLineList = new ArrayList();
 
         History history1 = new History();
         Warehouse warehouse1 = new Warehouse();
@@ -41,7 +42,7 @@ public class testData {
         warehouse1.setW_NAME("Warehouse1");
         warehouse1.setW_PLZ("68723");
         warehouse1.setW_STADT("Schwetzingen");
-        warehouse1.setW_STRAßE("Ostpreußenring 45");
+        warehouse1.setW_STRASSE("Ostpreußenring 45");
         warehouse1.setDistrictList(districtList);
         warehouse1.setStockList(stockList);
 
@@ -49,7 +50,7 @@ public class testData {
         district1.setD_NAME("District1");
         district1.setD_PLZ("68723");
         district1.setD_STADT("Schwetzingen");
-        district1.setD_STRAßE("Mannheimer Straße 2");
+        district1.setD_STRASSE("Mannheimer Straße 2");
         district1.setD_W_ID(1);
         district1.setDistrictWarehouse(warehouse1);
         districtList.add(district1);
@@ -69,7 +70,7 @@ public class testData {
         customer1.setC_KONTOSTAND(5000.24);
         customer1.setC_PLZ("68723");
         customer1.setC_STADT("Schwetzingen");
-        customer1.setC_STRAßE("test 23");
+        customer1.setC_STRASSE("test 23");
         customer1.setC_TELEFONNUMMER("06202213213");
         customer1.setC_KUNDESEIT(date);
         customer1.setC_RABATT(10.15);
@@ -82,10 +83,11 @@ public class testData {
         item1.setI_NAME("name item1");
         item1.setI_PRICE(29.99);
         item1.setStockList(stockList);
+        item1.setOrderlineList(orderLineList);
 
         stock1.setS_W_ID(1);
         stock1.setS_I_ID(4);
-        stock1.setOL_List(new ArrayList<OrderLine>());
+      //  stock1.setOL_List(new ArrayList<OrderLine>());
         stock1.setS_DIST_01(district1.getD_NAME());
         stock1.setS_DIST_02("district2");
         stock1.setS_DIST_03("district3");
@@ -97,6 +99,7 @@ public class testData {
         stock1.setS_DIST_09("district9");
         stock1.setS_DIST_10("district10");
         stock1.setS_ORDER_CNT(11);
+        stock1.setS_QUANTITY(20);
         stockList.add(stock1);
 
         /*
@@ -115,7 +118,7 @@ public class testData {
         order2.setO_EINGANGSDATUM(date);
         order2.setO_OL_CNT(4);
         order2.setCustomer(customer1);
-        order2.setNewOrder(newOrder);
+     //   order2.setNewOrder(newOrder);
         order2.setOrderLines(new ArrayList<OrderLine>());
 
 
@@ -124,10 +127,10 @@ public class testData {
         orderLine1.setOL_DELIVERY_D(date);
         orderLine1.setOL_O_ID(6);
         orderLine1.setOL_Order(order2);
-        orderLine1.setOL_QUANTITY(6);
-        orderLine1.setOL_Stock(stock1);
-        orderLine1.setOL_S_I_ID(4);
-        orderLine1.setOL_S_ID(stock1.getS_ID());
+        orderLine1.setOrderlineItem(item1);
+        orderLine1.setOL_I_ID(4);
+        orderLineList.add(orderLine1);
+
 
 
 

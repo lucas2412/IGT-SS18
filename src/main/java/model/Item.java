@@ -27,6 +27,17 @@ public class Item implements Serializable {
     @JsonIgnore
     private List<Stock> stockList = new ArrayList<Stock>();
 
+    @OneToMany(mappedBy = "orderlineItem")
+    @JsonIgnore
+    private List<OrderLine> orderlineList = new ArrayList<OrderLine>();
+
+    public List<OrderLine> getOrderlineList() {
+        return orderlineList;
+    }
+
+    public void setOrderlineList(List<OrderLine> orderlineList) {
+        this.orderlineList = orderlineList;
+    }
 
     public Integer getI_ID() {
         return I_ID;

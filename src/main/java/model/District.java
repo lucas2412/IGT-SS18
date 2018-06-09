@@ -20,7 +20,7 @@ public class District implements Serializable {
     @Column
     private String D_NAME;
     @Column
-    private String D_STRAßE;
+    private String D_STRASSE;
     @Column
     private String D_STADT;
     @Column
@@ -66,12 +66,12 @@ public class District implements Serializable {
         D_NAME = d_NAME;
     }
 
-    public String getD_STRAßE() {
-        return D_STRAßE;
+    public String getD_STRASSE() {
+        return D_STRASSE;
     }
 
-    public void setD_STRAßE(String d_STRAßE) {
-        D_STRAßE = d_STRAßE;
+    public void setD_STRASSE(String d_STRASSE) {
+        D_STRASSE = d_STRASSE;
     }
 
     public String getD_STADT() {

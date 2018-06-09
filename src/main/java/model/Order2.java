@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,12 +34,15 @@ public class Order2 {
 */
 
     @OneToMany(mappedBy = "OL_Order")
+    @JsonIgnore
     private List<OrderLine> orderLines = new ArrayList<OrderLine>();
 
+/*
     @OneToOne(mappedBy = "NewOrder")
+    @JsonIgnore
     private NewOrder order;
 
-
+*/
     public Customer getCustomer() {
         return customer;
     }
@@ -53,15 +58,23 @@ public class Order2 {
     public void setOrderLines(List<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
-
+/*
     public model.NewOrder getNewOrder() {
         return order;
+    }
+    public boolean isNewOrder() {
+        if (order != null){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     public void setNewOrder(model.NewOrder newOrder) {
         order = newOrder;
     }
 
+   */
     public Integer getO_ID() {
         return O_ID;
     }

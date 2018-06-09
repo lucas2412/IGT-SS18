@@ -1,9 +1,6 @@
 package Controller;
 
-import model.Customer;
-import model.District;
-import model.History;
-import model.Item;
+import model.*;
 import org.springframework.web.bind.annotation.*;
 import tools.Config;
 
@@ -12,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.transaction.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +21,8 @@ public class ItemController {
         Item item = new Item();
         item.setI_NAME(name);
         item.setI_PRICE(preis);
+        item.setOrderlineList(new ArrayList<OrderLine>());
+        item.setStockList(new ArrayList<Stock>());
 
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 

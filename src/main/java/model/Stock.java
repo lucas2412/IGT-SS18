@@ -47,18 +47,13 @@ public class Stock implements Serializable {
     }
 
 
-
     @ManyToOne
-    @JoinColumn(name = "S_W_ID", insertable=false, updatable = false)
+    @JoinColumn(name = "S_W_ID", insertable = false, updatable = false)
     private Warehouse StockWarehouse;
 
     @ManyToOne
-    @JoinColumn(name = "S_I_ID", insertable=false, updatable = false)
+    @JoinColumn(name = "S_I_ID", insertable = false, updatable = false)
     private Item stockItem;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "OL_Stock")
-    private List<OrderLine> OL_List = new ArrayList<OrderLine>();
 
 
     public Integer getS_ID() {
@@ -195,14 +190,6 @@ public class Stock implements Serializable {
 
     public void setStockItem(Item stockItem) {
         this.stockItem = stockItem;
-    }
-
-    public List<OrderLine> getOL_List() {
-        return OL_List;
-    }
-
-    public void setOL_List(List<OrderLine> OL_List) {
-        this.OL_List = OL_List;
     }
 }
 

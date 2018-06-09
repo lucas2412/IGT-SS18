@@ -4,17 +4,18 @@ import model.Customer;
 import model.District;
 import model.Stock;
 import model.Warehouse;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tools.Config;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.transaction.*;
 import java.util.List;
+
 
 
 @RestController
@@ -292,8 +293,9 @@ public class WarehouseController {
         return bestand;
     }
 
-    public boolean reduceStock(int W_ID, int S_I_ID, int anzahl) {
+    public boolean reduceStock( int W_ID, int S_I_ID, int anzahl) {
         Warehouse w = new Warehouse();
+
         int anzahlneu = anzahl;
         int bestand = 0;
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
@@ -455,20 +457,23 @@ public class WarehouseController {
         return getItemStock(wid,iid);
     }
 
-    @RequestMapping(value="/addStock", method = RequestMethod.GET)
-    public boolean add(@RequestParam(value ="wid", required = true) int wid,
-                      @RequestParam(value ="iid", required = true) int iid,
-                      @RequestParam(value ="anzahl", required = true) int anzahl)
-    {
+
+    @RequestMapping(value="/addStock", method = RequestMethod.PUT)
+    public boolean add(@RequestBody String json) {
+        JSONObject jsonnew = new JSONObject(json);
+        int wid = jsonnew.getInt("wid");
+        int iid = jsonnew.getInt("iid");
+        int anzahl = jsonnew.getInt("anzahl");
 
         return addStock(wid,iid,anzahl);
     }
 
-    @RequestMapping(value="/reduceStock", method = RequestMethod.GET)
-    public boolean reduce(@RequestParam(value ="wid", required = true) int wid,
-                          @RequestParam(value ="iid", required = true) int iid,
-                          @RequestParam(value ="anzahl", required = true) int anzahl)
-    {
+    @RequestMapping(value="/reduceStock", method = RequestMethod.PUT)
+    public boolean reduce(@RequestBody String json) {
+        JSONObject jsonnew = new JSONObject(json);
+        int wid = jsonnew.getInt("wid");
+        int iid = jsonnew.getInt("iid");
+        int anzahl = jsonnew.getInt("anzahl");
 
         return reduceStock(wid,iid,anzahl);
     }

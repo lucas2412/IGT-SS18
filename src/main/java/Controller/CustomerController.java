@@ -1,7 +1,8 @@
 package Controller;
 
-import model.Customer;
-import model.District;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import model.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tools.Config;
 
@@ -26,15 +27,8 @@ public class CustomerController {
     Date date = new Date();
 
 
-    public Customer createCustomer(String stadt, String straße, String plz, String tel) {
 
-
-
-        Customer customer = new Customer();
-        customer.setC_STADT(stadt);
-        customer.setC_STRAßE(straße);
-        customer.setC_PLZ(plz);
-        customer.setC_TELEFONNUMMER(tel);
+    public Customer createCustomer(Customer customer) {
 
         customer.setC_RABATT(0.0);
         customer.setC_KONTOSTAND(0.0);
@@ -117,47 +111,44 @@ public class CustomerController {
         return customer;
     }
 
-    public Customer updateCustomer(int id, String stadt, String straße, String plz, String tel, Integer districtid, Double rabatt, Double kontostand) {
+    public Customer updateCustomer(int id, Customer newCustomer) {
 
-        Customer customer = new Customer();
-        System.out.print(stadt);
-        System.out.print(straße);
-        System.out.print(rabatt);
-        System.out.print(kontostand);
-        System.out.print(districtid);
+        Customer oldCustomer = null;
+
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
             EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
             EntityManager entityManager = factory.createEntityManager();
 
             entityManager.getTransaction().begin();
-            customer = entityManager.find(Customer.class, id);
-            if (stadt != null) {
-                System.out.print("stadt289174872893712931927839123");
-                System.out.print(stadt);
-                customer.setC_STADT(stadt);
+            oldCustomer = entityManager.find(Customer.class, id);
+            if (newCustomer.getC_STADT() != null) {
+                oldCustomer.setC_STADT(newCustomer.getC_STADT());
             }
-            if (straße != null) {
-                System.out.print("straße23412312312312312323123123");
-                System.out.print(straße);
-                customer.setC_STRAßE(straße);
+            if (newCustomer.getC_STRASSE() != null) {
+                oldCustomer.setC_STRASSE(newCustomer.getC_STRASSE());
             }
-            if (plz != null) {
-                customer.setC_PLZ(plz);
+            if (newCustomer.getC_PLZ() != null) {
+                oldCustomer.setC_PLZ(newCustomer.getC_PLZ());
             }
-            if (tel != null) {
-                customer.setC_TELEFONNUMMER(tel);
+
+            if (newCustomer.getC_TELEFONNUMMER() != null) {
+                oldCustomer.setC_TELEFONNUMMER(newCustomer.getC_TELEFONNUMMER());
             }
-            if (districtid != null) {
-                customer.setC_D_ID(districtid);
-                customer.setCustomerDistrict(entityManager.find(District.class,districtid));
+
+            if (newCustomer.getC_D_ID() != null) {
+                oldCustomer.setC_D_ID(newCustomer.getC_D_ID());
             }
-            if (rabatt != null) {
-                customer.setC_RABATT(rabatt);
+
+            if (newCustomer.getC_RABATT() != null) {
+                oldCustomer.setC_RABATT(newCustomer.getC_RABATT());
             }
-            if (kontostand != null) {
-                customer.setC_KONTOSTAND(kontostand);
+
+            if (newCustomer.getC_KONTOSTAND() != null) {
+                oldCustomer.setC_KONTOSTAND(newCustomer.getC_KONTOSTAND());
             }
-            entityManager.merge(customer);
+
+
+            entityManager.merge(oldCustomer);
 
             entityManager.getTransaction().commit();
 
@@ -175,17 +166,35 @@ public class CustomerController {
 
                 tm.begin();
                 EntityManager em = emf.createEntityManager();
+                oldCustomer = em.find(Customer.class, id);
+                if (newCustomer.getC_STADT() != null) {
+                    oldCustomer.setC_STADT(newCustomer.getC_STADT());
+                }
+                if (newCustomer.getC_STRASSE() != null) {
+                    oldCustomer.setC_STRASSE(newCustomer.getC_STRASSE());
+                }
+                if (newCustomer.getC_PLZ() != null) {
+                    oldCustomer.setC_PLZ(newCustomer.getC_PLZ());
+                }
 
-                customer = em.find(Customer.class, id);
-                customer.setC_STADT(stadt);
-                customer.setC_STRAßE(straße);
-                customer.setC_PLZ(plz);
-                customer.setC_TELEFONNUMMER(tel);
-                //  customer.setCustomerDistrict(entityManager.find(District.class,districtid));
-                customer.setC_D_ID(districtid);
-                customer.setC_RABATT(rabatt);
-                customer.setC_KONTOSTAND(kontostand);
-                em.merge(customer);
+                if (newCustomer.getC_TELEFONNUMMER() != null) {
+                    oldCustomer.setC_TELEFONNUMMER(newCustomer.getC_TELEFONNUMMER());
+                }
+
+                if (newCustomer.getC_D_ID() != null) {
+                    oldCustomer.setC_D_ID(newCustomer.getC_D_ID());
+                }
+
+                if (newCustomer.getC_RABATT() != null) {
+                    oldCustomer.setC_RABATT(newCustomer.getC_RABATT());
+                }
+
+                if (newCustomer.getC_KONTOSTAND() != null) {
+                    oldCustomer.setC_KONTOSTAND(newCustomer.getC_KONTOSTAND());
+                }
+
+
+                em.merge(oldCustomer);
 
                 em.flush();
                 em.close();
@@ -205,10 +214,11 @@ public class CustomerController {
                 e.printStackTrace();
             }
         }
-        return customer;
+        return oldCustomer;
     }
 
     public boolean deleteCustomer(int C_ID) {
+        NewOrderController newOrderController = new NewOrderController();
 
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
             EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
@@ -216,6 +226,29 @@ public class CustomerController {
 
             entityManager.getTransaction().begin();
             Customer customer = entityManager.find(Customer.class, C_ID);
+
+            // bevor Customer gelöscht werden kann, müssen Abhängigkeiten gelöscht werden.
+            List<Order2> orderList = customer.getOrders();
+            for (int i = 0; i < orderList.size(); i++){
+                List<OrderLine> orderLinelist =  orderList.get(i).getOrderLines();
+                for (int x = 0; x < orderLinelist.size(); x++){
+                    OrderLine orderline = orderLinelist.get(x);
+                    entityManager.remove(orderline);
+
+                }
+                Order2 order = orderList.get(i);
+                Query query = entityManager.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
+                query.setParameter( 1, order.getO_ID());
+
+                Integer b  = (Integer) query.getSingleResult();
+                NewOrder newOrder = entityManager.find(NewOrder.class, b);
+
+                entityManager.remove(newOrder);
+                entityManager.remove(order);
+            }
+
+
+
 
             entityManager.remove(customer);
             entityManager.getTransaction().commit();
@@ -233,6 +266,27 @@ public class CustomerController {
                 EntityManager em = emf.createEntityManager();
 
                 Customer customer = em.find(Customer.class, C_ID);
+
+                List<Order2> orderList = customer.getOrders();
+                for (int i = 0; i < orderList.size(); i++){
+                    List<OrderLine> orderLinelist =  orderList.get(i).getOrderLines();
+                    for (int x = 0; x < orderLinelist.size(); x++){
+                        OrderLine orderline = orderLinelist.get(x);
+                        em.remove(orderline);
+
+                    }
+                    Order2 order = orderList.get(i);
+                    Query query = em.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
+                    query.setParameter( 1, order.getO_ID());
+
+                    Integer b  = (Integer) query.getSingleResult();
+                    NewOrder newOrder = em.find(NewOrder.class, b);
+
+                    em.remove(newOrder);
+                    em.remove(order);
+                }
+
+
                 em.remove(customer);
 
                 em.flush();
@@ -306,16 +360,12 @@ public class CustomerController {
         return customer;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public @ResponseBody
-    Customer create(@RequestParam(value ="strasse", required = true) String strasse,
-                    @RequestParam(value ="stadt", required = true) String stadt,
-                    @RequestParam(value ="plz", required = true) String plz,
-                    @RequestParam(value ="tel", required = true) String tel)
-                    {
+    @RequestMapping(method = RequestMethod.POST)
+    public Customer create(@RequestBody Customer customer) {
 
-        return createCustomer(strasse,stadt, tel, plz);
+        return createCustomer(customer);
     }
+
 
     @RequestMapping(value="/get/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -324,23 +374,16 @@ public class CustomerController {
         return getCustomer(id);
     }
 
-    @RequestMapping(value="/update", method = RequestMethod.GET)
-    public Customer update(@RequestParam(value ="id", required = true) int id,
-                               @RequestParam(value ="straße", required = false) String straße,
-                               @RequestParam(value ="stadt", required = false) String stadt,
-                               @RequestParam(value ="plz", required = false) String plz,
-                               @RequestParam(value ="tel", required = false) String tel,
-                               @RequestParam(value ="rabatt", required = false) Double rabatt,
-                               @RequestParam(value ="kontostand", required = false) Double kontostand,
-                               @RequestParam(value ="district", required = false) Integer district)
-    {
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public Customer update(@PathVariable int id, @RequestBody Customer customer) {
 
-        return updateCustomer(id,stadt,straße,plz,tel,district,rabatt, kontostand);
+        return updateCustomer(id, customer);
     }
 
-    @RequestMapping(value="/delete", method = RequestMethod.GET)
+
+    @RequestMapping(value="{id}", method = RequestMethod.DELETE)
     public @ResponseBody
-    boolean delete(@RequestParam(value = "id") int id){
+    boolean delete(@PathVariable(value = "id") int id){
 
         return deleteCustomer(id);
     }

@@ -23,7 +23,7 @@ public class Customer implements Serializable {
    // @Column
    // private Integer C_H_ID;
     @Column
-    private String C_STRAßE;
+    private String C_STRASSE;
     @Column
     private String C_STADT;
     @Column
@@ -79,12 +79,12 @@ public class Customer implements Serializable {
         C_H_ID = c_H_ID;
     }
 */
-    public String getC_STRAßE() {
-        return C_STRAßE;
+    public String getC_STRASSE() {
+        return C_STRASSE;
     }
 
-    public void setC_STRAßE(String c_STRAßE) {
-        C_STRAßE = c_STRAßE;
+    public void setC_STRASSE(String c_STRASSE) {
+        C_STRASSE = c_STRASSE;
     }
 
     public String getC_STADT() {

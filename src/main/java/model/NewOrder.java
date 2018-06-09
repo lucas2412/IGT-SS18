@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.neo4j.cypher.internal.frontend.v2_3.ast.Or;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class NewOrder implements Serializable {
    // @OneToOne(cascade = {CascadeType.ALL})
     @OneToOne
     @JoinColumn(name = "NO_O_ID", insertable=false, updatable = false)
+    @JsonIgnore
     private Order2 NewOrder;
 
 

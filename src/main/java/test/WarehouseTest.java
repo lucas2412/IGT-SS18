@@ -2,7 +2,7 @@ package test;
 
 import Controller.WarehouseController;
 import model.Warehouse;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +18,7 @@ public class WarehouseTest {
         warehouse1.setW_NAME("Warehouse1");
         warehouse1.setW_PLZ("68723");
         warehouse1.setW_STADT("Schwetzingen");
-        warehouse1.setW_STRAßE("Ostpreußenring 45");
+        warehouse1.setW_STRASSE("Ostpreußenring 45");
 
         warehouseController.createWarehouse(warehouse1);
         Warehouse newHouse = warehouseController.getWarehouse(4);

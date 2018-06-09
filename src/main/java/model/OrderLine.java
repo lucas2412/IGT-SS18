@@ -13,13 +13,9 @@ public class OrderLine implements Serializable {
     @Column
     private Integer OL_O_ID;
     @Column
-    private Integer OL_S_ID;
-    @Column
-    private Integer OL_S_I_ID;
+    private Integer OL_I_ID;
     @Column
     private Date OL_DELIVERY_D;
-    @Column
-    private Integer OL_QUANTITY;
     @Column
     private Integer OL_AMOUNT;
 
@@ -27,16 +23,24 @@ public class OrderLine implements Serializable {
     }
 
     @ManyToOne
+    @JoinColumn(name = "OL_I_ID", insertable=false, updatable = false)
+    private Item orderlineItem;
+
+
+    @ManyToOne
     @JoinColumn(name = "OL_O_ID", insertable=false, updatable = false)
     private Order2 OL_Order;
 
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "OL_S_ID", insertable=false, updatable = false),
-            @JoinColumn(name = "OL_S_I_ID", insertable=false, updatable = false)
-    })
-    private Stock OL_Stock;
+
+
+    public Item getOrderlineItem() {
+        return orderlineItem;
+    }
+
+    public void setOrderlineItem(Item orderlineItem) {
+        this.orderlineItem = orderlineItem;
+    }
 
     public Integer getOL_NUMBER() {
         return OL_NUMBER;
@@ -54,20 +58,15 @@ public class OrderLine implements Serializable {
         this.OL_O_ID = OL_O_ID;
     }
 
-    public Integer getOL_S_ID() {
-        return OL_S_ID;
+
+
+
+    public Integer getOL_I_ID() {
+        return OL_I_ID;
     }
 
-    public void setOL_S_ID(Integer OL_S_ID) {
-        this.OL_S_ID = OL_S_ID;
-    }
-
-    public Integer getOL_S_I_ID() {
-        return OL_S_I_ID;
-    }
-
-    public void setOL_S_I_ID(Integer OL_S_I_ID) {
-        this.OL_S_I_ID = OL_S_I_ID;
+    public void setOL_I_ID(Integer OL_I_ID) {
+        this.OL_I_ID = OL_I_ID;
     }
 
     public Date getOL_DELIVERY_D() {
@@ -76,14 +75,6 @@ public class OrderLine implements Serializable {
 
     public void setOL_DELIVERY_D(Date OL_DELIVERY_D) {
         this.OL_DELIVERY_D = OL_DELIVERY_D;
-    }
-
-    public Integer getOL_QUANTITY() {
-        return OL_QUANTITY;
-    }
-
-    public void setOL_QUANTITY(Integer OL_QUANTITY) {
-        this.OL_QUANTITY = OL_QUANTITY;
     }
 
     public Integer getOL_AMOUNT() {
@@ -102,11 +93,5 @@ public class OrderLine implements Serializable {
         this.OL_Order = OL_Order;
     }
 
-    public Stock getOL_Stock() {
-        return OL_Stock;
-    }
 
-    public void setOL_Stock(Stock OL_Stock) {
-        this.OL_Stock = OL_Stock;
-    }
 }

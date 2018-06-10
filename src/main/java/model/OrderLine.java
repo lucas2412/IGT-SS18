@@ -1,14 +1,16 @@
 package model;
 
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
+@Entity @Indexed
 @Table(name = "ORDERLINE")
 public class OrderLine implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer OL_NUMBER;
     @Column
     private Integer OL_O_ID;

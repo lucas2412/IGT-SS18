@@ -8,6 +8,7 @@ import tools.Config;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.transaction.*;
 
 public class NewOrderController {
@@ -114,7 +115,11 @@ public class NewOrderController {
 
             entityManager.getTransaction().begin();
 
-            newOrder = entityManager.find(NewOrder.class, NO_O_ID);
+            Query query = entityManager.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
+            query.setParameter( 1, NO_O_ID);
+
+            Integer b  = (Integer) query.getSingleResult();
+            newOrder = entityManager.find(NewOrder.class, b);
 
 
             entityManager.getTransaction().commit();
@@ -133,9 +138,14 @@ public class NewOrderController {
                 tm.begin();
                 EntityManager em = emf.createEntityManager();
 
-                newOrder = em.find(NewOrder.class, NO_O_ID);
 
-                em.persist(newOrder);
+                Query query = em.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
+                query.setParameter( 1, NO_O_ID);
+
+                Integer b  = (Integer) query.getSingleResult();
+                newOrder = em.find(NewOrder.class, b);
+
+
 
                 em.flush();
                 em.close();

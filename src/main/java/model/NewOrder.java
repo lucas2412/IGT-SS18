@@ -1,16 +1,17 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.search.annotations.Indexed;
 import org.neo4j.cypher.internal.frontend.v2_3.ast.Or;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+@Entity @Indexed
 @Table(name = "NEWORDER")
 public class NewOrder implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer NO_ID;
     @Column
     private Integer NO_O_ID;

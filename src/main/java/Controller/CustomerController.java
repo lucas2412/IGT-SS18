@@ -43,18 +43,20 @@ public class CustomerController {
 
             entityManager.getTransaction().begin();
 
-            Query query = entityManager.createQuery("Select upper(t.D_ID) from District t");
-            List list =  query.setMaxResults(5).getResultList();
-            int size = list.size();
+            if (customer.getC_D_ID() == null){
 
-            Random ran = new Random();
-            int id = ran.nextInt(size);
-            System.out.print(id + "------------------------------------------");
-            Integer D_ID = (Integer) list.get(id);
-            customer.setC_D_ID(D_ID);
-            customer.setCustomerDistrict(entityManager.find(District.class,D_ID));
+                Query query = entityManager.createQuery("Select upper(t.D_ID) from District t");
+                List list =  query.setMaxResults(5).getResultList();
+                int size = list.size();
 
+                Random ran = new Random();
+                int id = ran.nextInt(size);
+                System.out.print(id + "------------------------------------------");
+                Integer D_ID = (Integer) list.get(id);
+                customer.setC_D_ID(D_ID);
+                customer.setCustomerDistrict(entityManager.find(District.class,D_ID));
 
+            }
             entityManager.persist(customer);
 
 
@@ -78,17 +80,27 @@ public class CustomerController {
                 tm.begin();
 
                 EntityManager em = emf.createEntityManager();
+                if (customer.getC_D_ID() == null){
 
-                Query query = em.createQuery("Select upper(t.D_ID) from District t");
-                List list =  query.setMaxResults(5).getResultList();
-                int size = list.size();
+                    Query query = em.createQuery("Select upper(t.D_ID) from District t");
+                    List list =  query.setMaxResults(5).getResultList();
+                    int size = list.size();
+                    if (Config.PERSISTENCE_UNIT_NAME == "OGM_REDIS") {
+                        customer.setC_D_ID(2);
+                        customer.setCustomerDistrict(em.find(District.class,2));
+                    } else {
 
-                Random ran = new Random();
-                int id = ran.nextInt(size);
-                System.out.print(id + "------------------------------------------");
-                Integer D_ID = (Integer) list.get(id);
-                customer.setC_D_ID(D_ID);
-                customer.setCustomerDistrict(em.find(District.class,D_ID));
+                        Random ran = new Random();
+                        int id = ran.nextInt(size);
+                        System.out.print(id + "------------------------------------------");
+                        System.out.print(list.get(id).toString());
+                        Integer D_ID = (Integer) list.get(id);
+                        customer.setC_D_ID(D_ID);
+                        customer.setCustomerDistrict(em.find(District.class,D_ID));
+                    }
+
+
+                }
 
                 em.persist(customer);
                 em.flush();

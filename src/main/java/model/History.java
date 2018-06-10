@@ -10,7 +10,7 @@ import java.util.List;
 //@Table(name = "HISTORY")
 public class History implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer H_ID;
     @Column
     private Date H_DATE;

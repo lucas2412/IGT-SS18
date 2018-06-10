@@ -7,23 +7,55 @@ import tools.Config;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.transaction.*;
 
 public class StockController {
 
-    public void createStock(Stock s) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = factory.createEntityManager();
+    public Stock createStock(Stock s) {
+        if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 
-        entityManager.getTransaction().begin();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+            EntityManager entityManager = factory.createEntityManager();
 
-        entityManager.persist(s);
+            entityManager.getTransaction().begin();
 
-        entityManager.getTransaction().commit();
+            entityManager.persist(s);
 
-        entityManager.close();
-        factory.close();
+            entityManager.getTransaction().commit();
 
+            entityManager.close();
+            factory.close();
+        } else {
+            try {
+                //accessing JBoss's Transaction can be done differently but this one works nicely
+                TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+                //build the EntityManagerFactory as you would build in in Hibernate ORM
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+
+                tm.begin();
+
+                EntityManager em = emf.createEntityManager();
+                em.persist(s);
+                em.flush();
+                em.close();
+                tm.commit();
+                emf.close();
+
+            } catch (NotSupportedException e) {
+                e.printStackTrace();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            } catch (RollbackException e) {
+                e.printStackTrace();
+            } catch (HeuristicMixedException e) {
+                e.printStackTrace();
+            } catch (HeuristicRollbackException e) {
+                e.printStackTrace();
+            }
+        }
+        return s;
     }
+
     //TODO Primärschlüssel?
     public void updateOrderLine(Stock s) {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);

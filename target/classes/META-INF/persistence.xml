@@ -15,7 +15,7 @@
             <property name="hibernate.connection.password" value="igt" />
 
             <property name="hibernate.flushMode" value="FLUSH_AUTO" />
-       <!--   <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
 
             <property name="hibernate.transaction.jta.platform"
                       value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
@@ -34,7 +34,8 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.dialect" value ="org.hibernate.dialect.MySQLDialect" />
-        <!-- <property name="hibernate.hbm2ddl.auto" value="create"/> -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
 
       </properties>
 </persistence-unit>
@@ -53,10 +54,11 @@
                       value="true"/>
             <property name="hibernate.ogm.datastore.host" value="192.168.254.212"/>
             <property name="hibernate.ogm.datastore.port" value="27017"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <!--<property name="hibernate.ogm.datastore.username" value="root"/>
-            <property name="hibernate.ogm.datastore.password" value="toor"/>
-    -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <!--<property name="hibernate.ogm.datastore.username" value=""/>
+            <property name="hibernate.ogm.datastore.password" value=""/> -->
+            <property name="hibernate.id.new_generator_mappings" value="true"/>
+
         </properties>
     </persistence-unit>
 
@@ -66,7 +68,8 @@
             <property name="hibernate.ogm.datastore.provider" value="cassandra_experimental"/>
             <property name="hibernate.ogm.datastore.host" value="192.168.254.212:9042"/>
             <property name="hibernate.ogm.datastore.database" value="ogm_hibernate"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
         </properties>
     </persistence-unit>
 
@@ -83,7 +86,8 @@
             <!-- <property name="hibernate.ogm.datastore.grid_dialect" value="org.hibernate.ogm.datastore.redis.RedisHashDialect" /> -->
             <property name="hibernate.ogm.datastore.grid_dialect"
                       value="org.hibernate.ogm.datastore.redis.RedisJsonDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
         </properties>
     </persistence-unit>
 
@@ -95,7 +99,8 @@
             <property name="hibernate.ogm.datastore.host" value="192.168.254.212:7687"/>
             <property name="hibernate.ogm.datastore.username" value="neo4j"/>
             <property name="hibernate.ogm.datastore.password" value="igt"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.id.new_generator_mappings" value="true"/>
         </properties>
     </persistence-unit>
 

@@ -1,5 +1,6 @@
 package tools;
 
+import Controller.*;
 import model.*;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,15 @@ import java.util.List;
 
 public class testData {
 
-    public void createTestData() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+    public static void createTestData() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+        WarehouseController warehouseController = new WarehouseController();
+        DistrictController districtController = new DistrictController();
+        CustomerController customerController = new CustomerController();
+        ItemController itemController = new ItemController();
+        OrderController orderController = new OrderController();
+        OrderLineController orderLineController = new OrderLineController();
+        NewOrderController newOrderController = new NewOrderController();
+        StockController stockController = new StockController();
 
 
 
@@ -45,16 +54,19 @@ public class testData {
         warehouse1.setW_STRASSE("Ostpreußenring 45");
         warehouse1.setDistrictList(districtList);
         warehouse1.setStockList(stockList);
+        warehouse1 = warehouseController.createWarehouse(warehouse1);
+        System.out.println(warehouse1.getW_ID());
 
 
         district1.setD_NAME("District1");
         district1.setD_PLZ("68723");
         district1.setD_STADT("Schwetzingen");
         district1.setD_STRASSE("Mannheimer Straße 2");
-        district1.setD_W_ID(1);
+        district1.setD_W_ID(warehouse1.getW_ID());
         district1.setDistrictWarehouse(warehouse1);
         districtList.add(district1);
         district1.setCustomerList(customerList);
+        district1 = districtController.createDistrict(district1);
 
         /*
         history1.setH_ID(1);
@@ -65,18 +77,16 @@ public class testData {
 */
 
 
-        customer1.setC_D_ID(2);
+        customer1.setC_D_ID(district1.getD_ID());
       //  customer1.setC_H_ID(history1.getH_ID());
-        customer1.setC_KONTOSTAND(5000.24);
         customer1.setC_PLZ("68723");
         customer1.setC_STADT("Schwetzingen");
         customer1.setC_STRASSE("test 23");
         customer1.setC_TELEFONNUMMER("06202213213");
-        customer1.setC_KUNDESEIT(date);
-        customer1.setC_RABATT(10.15);
         customer1.setCustomerDistrict(district1);
    //     customer1.setCustomerHistory(history1);
         customerList.add(customer1);
+        customer1 = customerController.createCustomer(customer1);
 
       //  item1.setI_ID(1);
         item1.setI_NAME("item1");
@@ -84,9 +94,10 @@ public class testData {
         item1.setI_PRICE(29.99);
         item1.setStockList(stockList);
         item1.setOrderlineList(orderLineList);
+        item1 = itemController.createItem(item1);
 
-        stock1.setS_W_ID(1);
-        stock1.setS_I_ID(4);
+        stock1.setS_W_ID(warehouse1.getW_ID());
+        stock1.setS_I_ID(item1.getI_ID());
       //  stock1.setOL_List(new ArrayList<OrderLine>());
         stock1.setS_DIST_01(district1.getD_NAME());
         stock1.setS_DIST_02("district2");
@@ -98,49 +109,29 @@ public class testData {
         stock1.setS_DIST_08("district8");
         stock1.setS_DIST_09("district9");
         stock1.setS_DIST_10("district10");
-        stock1.setS_ORDER_CNT(11);
+        stock1.setS_ORDER_CNT(0);
         stock1.setS_QUANTITY(20);
         stockList.add(stock1);
-
-        /*
-        Order order = new Order();
-        order.setO_ID(1);
-        order.setO_C_ID(1);
-        order.setO_EINGANGSDATUM(date);
-        order.setO_OL_CNT(4);
-        order.setCustomer(customer1);
-        //  order2.setNewOrder(newOrder);
-        order.setOrderLines(new ArrayList<OrderLine>());
-*/
+        stock1 =  stockController.createStock(stock1);
 
         Order2 order2 = new Order2();
-        order2.setO_C_ID(3);
-        order2.setO_EINGANGSDATUM(date);
+        order2.setO_C_ID(customer1.getC_ID());
         order2.setO_OL_CNT(4);
         order2.setCustomer(customer1);
      //   order2.setNewOrder(newOrder);
         order2.setOrderLines(new ArrayList<OrderLine>());
-
+        order2 = orderController.createOrder(customer1.getC_ID(), 4);
 
 
         orderLine1.setOL_AMOUNT(3);
-        orderLine1.setOL_DELIVERY_D(date);
-        orderLine1.setOL_O_ID(6);
+        orderLine1.setOL_O_ID(order2.getO_ID());
         orderLine1.setOL_Order(order2);
         orderLine1.setOrderlineItem(item1);
-        orderLine1.setOL_I_ID(4);
+        orderLine1.setOL_I_ID(item1.getI_ID());
         orderLineList.add(orderLine1);
+        orderLineController.createOrderLine(5, order2.getO_ID(), item1.getI_ID());
 
-
-
-
-        newOrder.setNO_O_ID(6);
-        newOrder.setNewOrder(order2);
-
-
-
-
-
+/*
         if (Config.PERSISTENCE_UNIT_NAME != "MYSQL") {
             //accessing JBoss's Transaction can be done differently but this one works nicely
             TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
@@ -193,5 +184,7 @@ public class testData {
             em.close();
             factory.close();
         }
+         */
     }
+
 }

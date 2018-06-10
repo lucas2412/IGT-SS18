@@ -17,12 +17,9 @@ import java.util.Random;
 @RequestMapping("/item")
 public class ItemController {
 
-    public Item createItem(String name, double preis) {
-        Item item = new Item();
-        item.setI_NAME(name);
-        item.setI_PRICE(preis);
-        item.setOrderlineList(new ArrayList<OrderLine>());
-        item.setStockList(new ArrayList<Stock>());
+    public Item createItem(Item item) {
+     //   item.setOrderlineList(new ArrayList<OrderLine>());
+     //   item.setStockList(new ArrayList<Stock>());
 
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 
@@ -68,21 +65,20 @@ public class ItemController {
         return item;
     }
 
-    public Item updateItem(int id, String name, Double preis) {
-        Item item = new Item();
+    public Item updateItem(int id, Item item) {
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
             EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
             EntityManager entityManager = factory.createEntityManager();
 
             entityManager.getTransaction().begin();
-            item = entityManager.find(Item.class, id);
-            if (name != null) {
-                item.setI_NAME(name);
+            Item itemold = entityManager.find(Item.class, id);
+            if (item.getI_NAME() != null) {
+                itemold.setI_NAME(item.getI_NAME());
             }
-            if (preis != null) {
-                item.setI_PRICE(preis);
+            if (item.getI_PRICE() != null) {
+                itemold.setI_PRICE(item.getI_PRICE());
             }
-            entityManager.merge(item);
+            entityManager.merge(itemold);
 
             entityManager.getTransaction().commit();
 
@@ -101,14 +97,14 @@ public class ItemController {
                 tm.begin();
                 EntityManager em = emf.createEntityManager();
 
-                item = em.find(Item.class, id);
-                if (name != null) {
-                    item.setI_NAME(name);
+                Item itemold = em.find(Item.class, id);
+                if (item.getI_NAME() != null) {
+                    itemold.setI_NAME(item.getI_NAME());
                 }
-                if (preis != null) {
-                    item.setI_PRICE(preis);
+                if (item.getI_PRICE() != null) {
+                    itemold.setI_PRICE(item.getI_PRICE());
                 }
-                em.merge(item);
+                em.merge(itemold);
 
                 em.flush();
                 em.close();
@@ -283,13 +279,10 @@ public class ItemController {
 
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public @ResponseBody
-    Item create(@RequestParam(value ="name", required = true) String name,
-                    @RequestParam(value ="preis", required = true) Double preis)
-    {
+    @RequestMapping(method = RequestMethod.POST)
+    public Item create(@RequestBody Item item) {
 
-        return createItem(name,preis);
+        return createItem(item);
     }
 
     @RequestMapping(value="/get/{id}", method = RequestMethod.GET)
@@ -306,17 +299,18 @@ public class ItemController {
 
         return getAllItems();
     }
-    @RequestMapping(value="/update", method = RequestMethod.GET)
-    public Item update(@RequestParam(value ="id", required = true) int id,
-                           @RequestParam(value ="name", required = false) String name,
-                           @RequestParam(value ="preis", required = false) Double preis)
-    {
-        return updateItem(id,name,preis);
+
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public Item update(@PathVariable int id, @RequestBody Item item) {
+
+        return updateItem(id, item);
     }
 
-    @RequestMapping(value="/delete", method = RequestMethod.GET)
+
+    @RequestMapping(value="{id}", method = RequestMethod.DELETE)
     public @ResponseBody
-    boolean delete(@RequestParam(value = "id") int id){
+    boolean delete(@PathVariable(value = "id") int id){
 
         return deleteItem(id);
     }

@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
-    public void createWarehouse(Warehouse w) {
+    public Warehouse createWarehouse(Warehouse w) {
 
         if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
             EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
@@ -65,6 +65,8 @@ public class WarehouseController {
                 e.printStackTrace();
             }
         }
+
+        return w;
     }
 
 

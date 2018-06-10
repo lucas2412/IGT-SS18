@@ -10,7 +10,7 @@ import java.util.List;
 //@Table(name = "ORDER")
 public class Order implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer O_ID;
     @Column
     private Integer O_C_ID;

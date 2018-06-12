@@ -85,7 +85,7 @@ public class CustomerController {
                     Query query = em.createQuery("Select upper(t.D_ID) from District t");
                     List list =  query.setMaxResults(5).getResultList();
                     int size = list.size();
-                    if (Config.PERSISTENCE_UNIT_NAME == "OGM_REDIS") {
+                    if (Config.PERSISTENCE_UNIT_NAME == "OGM_REDIS" ||Config.PERSISTENCE_UNIT_NAME == "OGM_CASSANDRA" ) {
                         customer.setC_D_ID(2);
                         customer.setCustomerDistrict(em.find(District.class,2));
                     } else {

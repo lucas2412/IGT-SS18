@@ -1,9 +1,9 @@
 FROM openjdk:8
 
-ADD springbootserver.jar /myapp/
+ADD server-1.0.0.jar /myapp/
 
 WORKDIR /myapp/
 
-CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "springbootserver.jar"]
+CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "server-1.0.0.jar"]
 
 EXPOSE 8080

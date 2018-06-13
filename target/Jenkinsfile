@@ -1,14 +1,12 @@
 pipeline {
-  agent none
+  agent { dockerfile true }
   stages {
     stage('Docker Build') {
-      agent any
       steps {
         sh 'docker build -t server .'
       }
     }
 	 stage('Docker Run') {
-      agent any
       steps {
         sh 'docker run server -p 8080:8080'
       }

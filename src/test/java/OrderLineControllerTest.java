@@ -12,8 +12,9 @@ import tools.testData;
 
 import javax.transaction.*;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 public class OrderLineControllerTest {
     @BeforeAll

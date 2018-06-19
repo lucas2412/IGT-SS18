@@ -21,12 +21,16 @@ public class main {
 
     public static void main(String[] args) throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
 
+        testData data = new testData();
+        data.createTestData();
+     //   transaction();
+
+    }
 
 
-
+    public static void transaction() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         System.out.print("Start");
 
-/*
         //accessing JBoss's Transaction can be done differently but this one works nicely
         TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
         //build the EntityManagerFactory as you would build in in Hibernate ORM
@@ -36,6 +40,7 @@ public class main {
         order2.setO_ID(1);
 
         tm.begin();
+        tm.begin();
         EntityManager em = emf.createEntityManager();
 
         em.persist(order2);
@@ -44,16 +49,6 @@ public class main {
         em.close();
         tm.commit();
         emf.close();
-
-
-*/
-        testData data = new testData();
-        data.createTestData();
-
-     //   CustomerController controller = new CustomerController();
-       // controller.create("1","3","68723", "20", 1);
-
-        System.out.print("Ende");
     }
 }
 

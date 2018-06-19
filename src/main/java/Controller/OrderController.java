@@ -170,7 +170,6 @@ public class OrderController {
             EntityManager entityManager = factory.createEntityManager();
 
             entityManager.getTransaction().begin();
-            String a = "DAS";
             orders = entityManager.createQuery("SELECT i FROM Order2 i").getResultList();
 
             entityManager.getTransaction().commit();
@@ -190,6 +189,7 @@ public class OrderController {
                 EntityManager em = emf.createEntityManager();
 
                 orders = em.createQuery("SELECT i FROM Order2 i").getResultList();
+
 
                 em.flush();
                 em.close();

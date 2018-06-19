@@ -1,6 +1,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Indexed
 @Table(name = "STOCK")
 public class Stock implements Serializable {
@@ -41,8 +43,6 @@ public class Stock implements Serializable {
     private String S_DIST_09;
     @Column
     private String S_DIST_10;
-    @Column
-    private Integer S_ORDER_CNT;
 
     public Stock() {
     }
@@ -167,14 +167,6 @@ public class Stock implements Serializable {
 
     public void setS_DIST_10(String s_DIST_10) {
         S_DIST_10 = s_DIST_10;
-    }
-
-    public Integer getS_ORDER_CNT() {
-        return S_ORDER_CNT;
-    }
-
-    public void setS_ORDER_CNT(Integer s_ORDER_CNT) {
-        S_ORDER_CNT = s_ORDER_CNT;
     }
 
     public Warehouse getStockWarehouse() {

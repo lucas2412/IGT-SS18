@@ -264,14 +264,13 @@ public class WarehouseController {
 
                 w = em.find(Warehouse.class, W_ID);
                 List list = w.getStockList();
+
                 for (int i = 0; list.size() > i; i++ ){
-                    Stock stock = new Stock();
+                    Stock stock = (Stock) list.get(i);
                     if (stock.getS_I_ID() == S_I_ID){
                         bestand+= stock.getS_QUANTITY();
                     }
                 }
-
-                em.getTransaction().commit();
 
                 em.flush();
                 em.close();
@@ -354,9 +353,6 @@ public class WarehouseController {
 
                     }
                 }
-
-                em.getTransaction().commit();
-
                 em.flush();
                 em.close();
                 tm.commit();
@@ -425,8 +421,6 @@ public class WarehouseController {
 
                     }
                 }
-
-                em.getTransaction().commit();
 
                 em.flush();
                 em.close();

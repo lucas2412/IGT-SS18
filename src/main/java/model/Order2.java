@@ -1,6 +1,7 @@
 package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity @Indexed
 @Table(name = "ORDER2")
 public class Order2 {
@@ -34,7 +37,7 @@ public class Order2 {
     private History OrderHistory;
 */
 
-    @OneToMany(mappedBy = "OL_Order")
+    @OneToMany(mappedBy = "OL_Order", cascade = {CascadeType.ALL})
     @JsonIgnore
     private List<OrderLine> orderLines = new ArrayList<OrderLine>();
 

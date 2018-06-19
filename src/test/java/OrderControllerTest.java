@@ -13,11 +13,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class OrderControllerTest {
+
+    /*
     @BeforeAll
     public static void setUp() throws HeuristicRollbackException, HeuristicMixedException, NotSupportedException, RollbackException, SystemException {
         testData.createTestData();
 
     }
+
+    */
+
     @Test
     public void createOrder(){
         OrderController orderController = new OrderController();

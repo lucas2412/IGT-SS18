@@ -1,7 +1,9 @@
 package Controller;
 
+import model.Customer;
 import model.District;
 import model.Warehouse;
+import org.springframework.web.bind.annotation.*;
 import tools.Config;
 
 import javax.persistence.EntityManager;
@@ -69,54 +71,183 @@ public class DistrictController {
     }
 
     public void updateDistrict(District d) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = factory.createEntityManager();
 
-        entityManager.getTransaction().begin();
-        District districtold = entityManager.find(District.class, d.getD_ID());
-        districtold = d;
-        entityManager.merge(districtold);
+        if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 
-        entityManager.getTransaction().commit();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+            EntityManager entityManager = factory.createEntityManager();
+
+            entityManager.getTransaction().begin();
+
+            District districtold = entityManager.find(District.class, d.getD_ID());
+            districtold = d;
+            entityManager.merge(districtold);
 
 
-        entityManager.close();
-        factory.close();
+            entityManager.getTransaction().commit();
+
+            entityManager.close();
+            factory.close();
+
+
+        } else {
+
+            try {
+                //accessing JBoss's Transaction can be done differently but this one works nicely
+                TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+                //build the EntityManagerFactory as you would build in in Hibernate ORM
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+
+                tm.begin();
+                EntityManager em = emf.createEntityManager();
+
+                District districtold = em.find(District.class, d.getD_ID());
+                districtold = d;
+                em.merge(districtold);
+
+                em.flush();
+                em.close();
+                tm.commit();
+                emf.close();
+            } catch (NotSupportedException e) {
+                e.printStackTrace();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            } catch (RollbackException e) {
+                e.printStackTrace();
+            } catch (HeuristicMixedException e) {
+                e.printStackTrace();
+            } catch (HeuristicRollbackException e) {
+                e.printStackTrace();
+            }
+
+        }
 
     }
 
     public void deleteDistrict(int D_ID) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = factory.createEntityManager();
+        if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 
-        entityManager.getTransaction().begin();
-        District district = entityManager.find(District.class, D_ID);
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+            EntityManager entityManager = factory.createEntityManager();
 
-        entityManager.remove(district);
-        entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            District district = entityManager.find(District.class, D_ID);
+
+            entityManager.remove(district);
+            entityManager.getTransaction().commit();
 
 
+            entityManager.close();
+            factory.close();
+        } else {
+            try {
 
-        entityManager.close();
-        factory.close();
+                TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+                //build the EntityManagerFactory as you would build in in Hibernate ORM
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
 
+                tm.begin();
+                EntityManager em = emf.createEntityManager();
+
+                District district = em.find(District.class, D_ID);
+
+                em.remove(district);
+
+                em.flush();
+                em.close();
+                tm.commit();
+                emf.close();
+            } catch (NotSupportedException e) {
+                e.printStackTrace();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            } catch (RollbackException e) {
+                e.printStackTrace();
+            } catch (HeuristicMixedException e) {
+                e.printStackTrace();
+            } catch (HeuristicRollbackException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public District getDistrict(int D_ID) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
-        EntityManager entityManager = factory.createEntityManager();
-
         District district = null;
+        if (Config.PERSISTENCE_UNIT_NAME == "MYSQL") {
 
-        entityManager.getTransaction().begin();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+            EntityManager entityManager = factory.createEntityManager();
 
-        district = entityManager.find(District.class, D_ID);
+            district = null;
 
-        entityManager.close();
-        factory.close();
+            entityManager.getTransaction().begin();
 
+            district = entityManager.find(District.class, D_ID);
+
+            entityManager.close();
+            factory.close();
+
+        } else {
+            try {
+
+                TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
+                //build the EntityManagerFactory as you would build in in Hibernate ORM
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT_NAME);
+
+                tm.begin();
+                EntityManager em = emf.createEntityManager();
+
+                em.getTransaction().begin();
+
+                district = em.find(District.class, D_ID);
+
+                em.flush();
+                em.close();
+                tm.commit();
+                emf.close();
+            } catch (NotSupportedException e) {
+                e.printStackTrace();
+            } catch (SystemException e) {
+                e.printStackTrace();
+            } catch (RollbackException e) {
+                e.printStackTrace();
+            } catch (HeuristicMixedException e) {
+                e.printStackTrace();
+            } catch (HeuristicRollbackException e) {
+                e.printStackTrace();
+            }
+
+        }
         return district;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public District create(@RequestBody District district) {
+
+        return createDistrict(district);
+    }
 
 
+    @RequestMapping(value="/get/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    District get(@PathVariable(value = "id", required = true) int id) {
+
+        return getDistrict(id);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable int id, @RequestBody District district) {
+
+        updateDistrict(district);
+    }
+
+
+    @RequestMapping(value="{id}", method = RequestMethod.DELETE)
+    public @ResponseBody
+    void delete(@PathVariable(value = "id") int id){
+
+        deleteDistrict(id);
     }
 }

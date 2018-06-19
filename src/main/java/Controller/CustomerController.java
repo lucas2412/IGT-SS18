@@ -85,7 +85,7 @@ public class CustomerController {
                     Query query = em.createQuery("Select upper(t.D_ID) from District t");
                     List list =  query.setMaxResults(5).getResultList();
                     int size = list.size();
-                    if (Config.PERSISTENCE_UNIT_NAME == "OGM_REDIS" ||Config.PERSISTENCE_UNIT_NAME == "OGM_CASSANDRA" ) {
+                    if (Config.PERSISTENCE_UNIT_NAME == "OGM_REDIS" || Config.PERSISTENCE_UNIT_NAME == "OGM_CASSANDRA" ) {
                         customer.setC_D_ID(2);
                         customer.setCustomerDistrict(em.find(District.class,2));
                     } else {
@@ -241,13 +241,18 @@ public class CustomerController {
 
             // bevor Customer gelöscht werden kann, müssen Abhängigkeiten gelöscht werden.
             List<Order2> orderList = customer.getOrders();
+
             for (int i = 0; i < orderList.size(); i++){
                 List<OrderLine> orderLinelist =  orderList.get(i).getOrderLines();
+                /*
                 for (int x = 0; x < orderLinelist.size(); x++){
                     OrderLine orderline = orderLinelist.get(x);
                     entityManager.remove(orderline);
 
                 }
+                 */
+
+
                 Order2 order = orderList.get(i);
                 Query query = entityManager.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
                 query.setParameter( 1, order.getO_ID());
@@ -256,7 +261,7 @@ public class CustomerController {
                 NewOrder newOrder = entityManager.find(NewOrder.class, b);
 
                 entityManager.remove(newOrder);
-                entityManager.remove(order);
+           //     entityManager.remove(order);
             }
 
 
@@ -267,7 +272,10 @@ public class CustomerController {
             entityManager.close();
             factory.close();
 
-        }else {
+       /* }else if (Config.PERSISTENCE_UNIT_NAME == "NEO4J") {
+            return true; */
+        }
+        else{
             try {
                 //accessing JBoss's Transaction can be done differently but this one works nicely
                 TransactionManager tm = com.arjuna.ats.jta.TransactionManager.transactionManager();
@@ -278,7 +286,7 @@ public class CustomerController {
                 EntityManager em = emf.createEntityManager();
 
                 Customer customer = em.find(Customer.class, C_ID);
-
+/*
                 List<Order2> orderList = customer.getOrders();
                 for (int i = 0; i < orderList.size(); i++){
                     List<OrderLine> orderLinelist =  orderList.get(i).getOrderLines();
@@ -289,7 +297,8 @@ public class CustomerController {
                     }
                     Order2 order = orderList.get(i);
                     Query query = em.createQuery( "Select NO_ID from NewOrder no where no.NO_O_ID = ?1" );
-                    query.setParameter( 1, order.getO_ID());
+                    System.out.println(order.getO_ID()+ "------------------------------");
+                    query.setParameter( 1, (int) order.getO_ID());
 
                     Integer b  = (Integer) query.getSingleResult();
                     NewOrder newOrder = em.find(NewOrder.class, b);
@@ -297,7 +306,7 @@ public class CustomerController {
                     em.remove(newOrder);
                     em.remove(order);
                 }
-
+*/
 
                 em.remove(customer);
 

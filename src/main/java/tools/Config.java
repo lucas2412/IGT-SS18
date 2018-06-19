@@ -9,7 +9,7 @@ public class Config {
     public static final String PERSISTENCE_UNIT_NAME = PERSISTENCE_UNITS.MYSQL.name();
 
     public enum PERSISTENCE_UNITS {
-        MYSQL, OGM_MYSQL, OGM_MONGODB, OGM_NEO4J, OGM_CASSANDRA, OGM_REDIS,
+        MYSQL, OGM_MONGODB, OGM_NEO4J, OGM_CASSANDRA, OGM_REDIS,
 
 
     }
